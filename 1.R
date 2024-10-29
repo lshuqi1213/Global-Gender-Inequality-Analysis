@@ -1,0 +1,20 @@
+library(readr)
+library(sf)
+library(dplyr)
+install.packages("dplyr")
+library(dplyr)
+install.packages("sf")
+library(sf)
+gender_data <- read_excel('HDR23-24_Statistical_Annex_GII_Table.xlsx')
+gender_data <- read_excel('HDR23-24_Statistical_Annex_GII_Table.xlsx')
+world_geo <- st_read('World_Countries_(Generalized)_9029012925078512962.geojson')
+gender_data <- read.csv('HDR23-24_Composite_indices_complete_time_series.csv')
+colnames(gender_data)
+gender_2010_2019 <- gender_data %>%
+  select(country,hdi_2010, hdi_2019)
+head(merged_data)
+gender_2010_2019 <- gender_2010_2019 %>%
+  mutate(GII_change = hdi_2019 - hdi_2010)
+merged_data <- world_geo %>%
+  left_join(gender_2010_2019, by = c("COUNTRY" = "country"))
+st_write(merged_data, "updated_gender_inequality_word spatial data.geojson")
